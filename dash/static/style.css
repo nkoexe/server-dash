@@ -1,0 +1,159 @@
+:root {
+  --background: #161616;
+  --background-light: #1f1f1f;
+  --text: #ffffff;
+  --text-light: #b4b4b4;
+  --border: 1px solid #303030;
+  --status-loading: #dec268;
+  --status-ok: #82eb3c;
+  --status-error: #ec5c34;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--background);
+  color: var(--text);
+}
+
+.secondary {
+  color: var(--text-light);
+  font-weight: 300;
+}
+
+#header {
+  margin: 50px 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#title {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+#header button {
+  color: var(--text-light);
+  font-weight: 300;
+  padding: 5px 10px;
+}
+
+#header .or {
+  opacity: 0.6;
+  font-weight: 200;
+}
+
+#main_container {
+  display: flex;
+  gap: 50px;
+  width: 100%;
+  padding: min(50px, 5%);
+  padding-top: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#status_container {
+  padding: 30px 50px;
+  border: var(--border);
+  border-radius: 40px;
+}
+
+.status {
+  display: flex;
+  background-color: var(--background-light);
+  align-items: center;
+  gap: 20px;
+  padding: 15px 30px;
+  border: var(--border);
+  border-radius: 10px;
+  transition: all 1s;
+}
+
+.status.error {
+  box-shadow: inset 30px 0 30px -25px var(--status-error);
+}
+
+.status .statusindicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.status:not(.ok):not(.error) .statusindicator {
+  background-color: var(--status-loading);
+  animation: pulse 1s infinite;
+}
+
+.status.ok .statusindicator {
+  background-color: var(--status-ok);
+}
+
+.status.error .statusindicator {
+  background-color: var(--status-error);
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+
+#sysinfo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  border: var(--border);
+  border-radius: 30px;
+  padding: 20px 50px;
+}
+
+.info.wide {
+  grid-column: span 2;
+}
+
+.info:has(.data span:empty) {
+  animation: pulse 1s infinite;
+}
+
+.info .data {
+  font-weight: 600;
+  font-size: 35px;
+  flex: 1;
+}
+
+.info .description {
+  opacity: 0.5;
+}
