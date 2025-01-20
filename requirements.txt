@@ -1,1 +1,5 @@
 Flask
+python-dotenv
+psutil
+gunicorn
+gevent
