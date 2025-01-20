@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 import psutil
 import subprocess
+import logging
 
 
 commands = {
@@ -14,6 +15,7 @@ commands = {
     "shutdown": ["shutdown", "-h", "now"],
 }
 
+logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
 
@@ -23,13 +25,16 @@ urls = os.getenv("DASH_URLS", "")
 if urls:
     urls = urls.split(",")
 
+logging.info(f"URLs: {urls}")
+
 
 @app.route("/api/stats")
 def get_stats():
     try:
         with open("/var/log/power.csv", "r") as file:
             power = float(file.readlines()[-1].strip().split(",")[-1])
-    except Exception:
+    except Exception as e:
+        logging.error(e)
         power = "nan"
 
     return jsonify(
@@ -45,13 +50,17 @@ def get_stats():
 @app.route("/api/<cmd>", methods=["POST"])
 def update_dash(cmd):
     try:
+        logging.info(f"Running command: {" ".join(commands[cmd])}")
         result = subprocess.run(commands[cmd], capture_output=True, text=True)
 
         if result.returncode == 0:
+            logging.info(result.stdout)
             return jsonify({"status": "ok"})
         else:
+            logging.error(result.stderr)
             return jsonify({"status": "error", "message": result.stderr}), 500
     except Exception as e:
+        logging.error(e)
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
