@@ -27,7 +27,7 @@ if urls:
 @app.route("/api/stats")
 def get_stats():
     try:
-        with open("/var/log/power.log", "r") as file:
+        with open("/var/log/power.csv", "r") as file:
             power = float(file.readlines()[-1].strip().split(",")[-1])
     except Exception:
         power = "nan"
