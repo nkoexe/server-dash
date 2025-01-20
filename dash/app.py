@@ -50,7 +50,7 @@ def get_stats():
 @app.route("/api/<cmd>", methods=["POST"])
 def update_dash(cmd):
     try:
-        logging.info(f"Running command: {" ".join(commands[cmd])}")
+        logging.info(f"Running command: {commands[cmd]}")
         result = subprocess.run(commands[cmd], capture_output=True, text=True)
 
         if result.returncode == 0:
