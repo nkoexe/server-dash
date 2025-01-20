@@ -7,7 +7,7 @@ import logging
 
 
 commands = {
-    "restart-containers": ["docker-compose", "restart"],
+    "restart-containers": ["sh", "-c", "docker restart $(docker ps -q)"],
     "restart-networking": ["systemctl", "restart", "networking"],
     "update-dash": ["git", "pull"],
     "restart-dash": ["systemctl", "restart", "server-dash"],
