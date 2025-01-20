@@ -46,6 +46,28 @@ body {
   font-weight: 400;
 }
 
+#header .buttons {
+  display: flex;
+  align-items: center;
+}
+
+#header .buttons .others {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  width: 20px;
+  opacity: 0;
+  text-wrap: nowrap;
+  transition: all .6s;
+  interpolate-size: allow-keywords;
+}
+
+#header .buttons .others:hover {
+  width: auto;
+  opacity: 1;
+  transition-delay: 1s;
+}
+
 #header button {
   color: var(--text-light);
   font-weight: 300;

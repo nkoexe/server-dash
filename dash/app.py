@@ -7,10 +7,11 @@ import subprocess
 
 commands = {
     "restart-containers": ["docker-compose", "restart"],
-    "update-containers": ["docker-compose", "pull"],
-    "update-app": ["git", "pull"],
     "restart-networking": ["systemctl", "restart", "networking"],
+    "update-dash": ["git", "pull"],
+    "restart-dash": ["systemctl", "restart", "server-dash"],
     "reboot": ["reboot"],
+    "shutdown": ["shutdown", "-h", "now"],
 }
 
 
@@ -41,40 +42,10 @@ def get_stats():
     )
 
 
-@app.route("/api/restart-containers", methods=["POST"])
-def restart_containers():
+@app.route("/api/<cmd>", methods=["POST"])
+def update_dash(cmd):
     try:
-        result = subprocess.run(
-            ["docker-compose", "restart"], capture_output=True, text=True
-        )
-
-        if result.returncode == 0:
-            return jsonify({"status": "ok"})
-        else:
-            return jsonify({"status": "error", "message": result.stderr}), 500
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
-
-
-@app.route("/api/restart-networking", methods=["POST"])
-def restart_network():
-    try:
-        result = subprocess.run(
-            ["systemctl", "restart", "networking"], capture_output=True, text=True
-        )
-
-        if result.returncode == 0:
-            return jsonify({"status": "ok"})
-        else:
-            return jsonify({"status": "error", "message": result.stderr}), 500
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
-
-
-@app.route("/api/reboot", methods=["POST"])
-def reboot():
-    try:
-        result = subprocess.run(["reboot"], capture_output=True, text=True)
+        result = subprocess.run(commands[cmd], capture_output=True, text=True)
 
         if result.returncode == 0:
             return jsonify({"status": "ok"})
