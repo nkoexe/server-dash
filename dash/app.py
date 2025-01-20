@@ -54,7 +54,7 @@ def update_dash(cmd):
         result = subprocess.run(commands[cmd], capture_output=True, text=True)
 
         if result.returncode == 0:
-            logging.info(result.stdout)
+            logging.info("ok: " + result.stdout)
             return jsonify({"status": "ok"})
         else:
             logging.error(result.stderr)
