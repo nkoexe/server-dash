@@ -60,12 +60,12 @@ def get_power(avg: bool = False):
                     pass
                 finally:
                     if i == len(pwrlist):
-                        break                    
+                        break
 
             if pwrsum == 0:
                 return "nan"
 
-            return pwrsum / len(pwrlist)
+            return pwrsum / (10 - take)
 
     except Exception as e:
         logging.error(e)
