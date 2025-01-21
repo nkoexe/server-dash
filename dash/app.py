@@ -10,9 +10,7 @@ import logging
 commands = {
     "restart-containers": ["docker", "restart", "$(docker ps -q)"],
     "restart-networking": ["systemctl", "restart", "networking"],
-    "update-dash": ["git", "pull", "&&", "systemctl", "restart", "server-dash"],
-    "restart-dash": ["systemctl", "restart", "server-dash"],
-    "reboot": ["systemctl", "reboot"],
+    "reboot": ["shutdown", "-r", "now"],
     "shutdown": ["shutdown", "-h", "now"],
 }
 
