@@ -11,7 +11,7 @@ commands = {
     "restart-networking": ["systemctl", "restart", "networking"],
     "update-dash": ["git", "pull"],
     "restart-dash": ["systemctl", "restart", "server-dash"],
-    "reboot": ["reboot"],
+    "reboot": ["systemctl", "reboot"],
     "shutdown": ["shutdown", "-h", "now"],
 }
 
