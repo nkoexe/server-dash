@@ -144,23 +144,29 @@ body {
   box-shadow: inset 30px 0 30px -25px var(--status-error);
 }
 
-.status .statusindicator {
+.status .indicator {
+  position: relative;
   width: 10px;
   height: 10px;
   border-radius: 50%;
+  transition: all .2s;
 }
 
-.status:not(.ok):not(.error) .statusindicator {
+.status:not(.ok):not(.error) .indicator {
   background-color: var(--status-loading);
   animation: pulse 1s infinite;
 }
 
-.status.ok .statusindicator {
+.status.ok .indicator {
   background-color: var(--status-ok);
 }
 
-.status.error .statusindicator {
+.status.error .indicator {
   background-color: var(--status-error);
+}
+
+.status:hover .indicator {
+  scale: 1.1;
 }
 
 @keyframes pulse {
