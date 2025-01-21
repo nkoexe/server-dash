@@ -29,7 +29,7 @@
   <div id="main_container">
     <div id="status_container" class="container">
       {% for url in urls %}
-      <div class="status" data-url="{{url}}">
+      <a class="status" data-url="{{url}}" href="{{url}}" target="_blank">
         <div class="statusindicator loading"></div>
         {% set domain = url.split("//")[1] %}
         {% set parts = domain.split(".") %}
@@ -40,7 +40,7 @@
         {% else %}
         <div>{{domain}}</div>
         {% endif %}
-      </div>
+      </a>
       {% endfor %}
     </div>
 

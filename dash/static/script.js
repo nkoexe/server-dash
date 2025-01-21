@@ -15,7 +15,7 @@ function update() {
       mem_total.textContent = (data.memory.total / 1073741824).toFixed(1);
       disk.textContent = (data.disk.used / 1073741824).toFixed(1);
       disk_total.textContent = (data.disk.total / 1073741824).toFixed(0);
-      power.textContent = data.power.toFixed(1);
+      power.textContent = typeof data.power === 'number' ? data.power.toFixed(1) : data.power;
     });
 
   for (let status of document.querySelectorAll('.status')) {

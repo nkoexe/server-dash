@@ -23,6 +23,11 @@ button {
   font: inherit;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   background: var(--background);
@@ -101,13 +106,38 @@ body {
 
 .status {
   display: flex;
+  position: relative;
   background-color: var(--background-light);
   align-items: center;
   gap: 20px;
   padding: 15px 30px;
   border: var(--border);
-  border-radius: 10px;
+  border-radius: 15px;
+  cursor: pointer;
   transition: all 1s;
+}
+
+.status::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 15px;
+  aspect-ratio: 1;
+  margin: 3px;
+  border-radius: 100% 100% 0 0;
+  border: 1px solid var(--text-light);
+  border-color: var(--text-light) transparent transparent transparent;
+  rotate: 45deg;
+  z-index: 10;
+  opacity: 0;
+  transition: all .2s;
+}
+
+.status:hover::after {
+  opacity: 1;
+  margin: 5px;
 }
 
 .status.error {
