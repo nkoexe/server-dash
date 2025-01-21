@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify
 from dotenv import load_dotenv
+from time import time
 import os
 import psutil
 import subprocess
@@ -21,6 +22,10 @@ app = Flask(__name__)
 
 load_dotenv()
 
+power = "nan"
+last_power_check = 0
+power_check_interval = 5 * 60
+
 urls = os.getenv("DASH_URLS", "")
 if urls:
     urls = urls.split(",")
@@ -28,14 +33,37 @@ if urls:
 logging.info(f"URLs: {urls}")
 
 
-@app.route("/api/stats")
-def get_stats():
+def get_power(avg: bool = False):
     try:
         with open("/var/log/power.csv", "r") as file:
-            power = float(file.readlines()[-1].strip().split(",")[-1])
+            if not avg:
+                pwrstr = file.readlines()[-1].strip().split(",")[-1]
+                if pwrstr.isnumeric():
+                    return float(pwrstr)
+
+                return "nan"
+
+            pwrlist = [line.strip().split(",")[-1] for line in file.readlines()]
+            pwrsum = sum([float(pwr) for pwr in pwrlist if pwr.isnumeric()])
+
+            if pwrsum == 0:
+                return "nan"
+
+            return pwrsum / len(pwrlist)
+
     except Exception as e:
         logging.error(e)
-        power = "nan"
+        return "nan"
+
+
+@app.route("/api/stats")
+def get_stats():
+    global last_power_check, power
+    if time() - last_power_check > power_check_interval:
+        last_power_check = time()
+        power = get_power(False)
+        if power == "nan":
+            power = get_power(True)
 
     return jsonify(
         {
