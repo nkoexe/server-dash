@@ -48,12 +48,19 @@ def get_power(avg: bool = False):
 
             pwrlist = [line.strip().split(",")[-1] for line in file.readlines()]
 
+            take = 10
+            i = 0
             pwrsum = 0
-            for pwr in pwrlist:
+            while take > 0:
+                i += 1
                 try:
-                    pwrsum += float(pwr)
+                    pwrsum += float(pwrlist[-i])
+                    take -= 1
                 except ValueError:
                     pass
+                finally:
+                    if i == len(pwrlist):
+                        break                    
 
             if pwrsum == 0:
                 return "nan"
