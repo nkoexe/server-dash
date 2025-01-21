@@ -85,11 +85,13 @@ body {
 }
 
 #main_container {
-  display: flex;
-  gap: 50px;
   width: 100%;
   padding: min(50px, 5%);
   padding-top: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1rem;
 }
 
 .container {
@@ -99,7 +101,7 @@ body {
 }
 
 #status_container {
-  padding: 30px 50px;
+  padding: 40px 50px;
   border: var(--border);
   border-radius: 40px;
 }
@@ -165,12 +167,14 @@ body {
 }
 
 #sysinfo {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
 .info {
+  width: min-content;
   display: flex;
   flex-direction: column;
   border: var(--border);
@@ -179,7 +183,7 @@ body {
 }
 
 .info.wide {
-  grid-column: span 2;
+  flex-basis: 50%;
 }
 
 .info .data {
