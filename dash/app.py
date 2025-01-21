@@ -39,13 +39,21 @@ def get_power(avg: bool = False):
         with open("/var/log/power.csv", "r") as file:
             if not avg:
                 pwrstr = file.readlines()[-1].strip().split(",")[-1]
-                if pwrstr.isnumeric():
+                try:
                     return float(pwrstr)
+                except ValueError:
+                    pass
 
                 return "nan"
 
             pwrlist = [line.strip().split(",")[-1] for line in file.readlines()]
-            pwrsum = sum([float(pwr) for pwr in pwrlist if pwr.isnumeric()])
+
+            pwrsum = 0
+            for pwr in pwrlist:
+                try:
+                    pwrsum += float(pwr)
+                except ValueError:
+                    pass
 
             if pwrsum == 0:
                 return "nan"
