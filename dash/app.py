@@ -8,7 +8,7 @@ import logging
 
 
 commands = {
-    "restart-containers": ["sh", "-c", "docker restart $(docker ps -q)"],
+    "restart-containers": ["docker", "restart", "$(docker ps -q)"],
     "restart-networking": ["systemctl", "restart", "networking"],
     "update-dash": ["git", "pull", "&&", "systemctl", "restart", "server-dash"],
     "restart-dash": ["systemctl", "restart", "server-dash"],
@@ -91,10 +91,12 @@ def get_stats():
 
 
 @app.route("/api/<cmd>", methods=["POST"])
-def update_dash(cmd):
+def cmd(cmd):
     try:
         logging.info(f"Running command: {commands[cmd]}")
-        result = subprocess.run(commands[cmd], capture_output=True, text=True)
+        result = subprocess.run(
+            commands[cmd], capture_output=True, text=True, shell=True
+        )
 
         if result.returncode == 0:
             logging.info("ok: " + result.stdout)
