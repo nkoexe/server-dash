@@ -24,7 +24,8 @@ load_dotenv()
 
 power = "nan"
 last_power_check = 0
-power_check_interval = 5 * 60
+# power_check_interval = 5 * 60
+power_check_interval = 1
 
 urls = os.getenv("DASH_URLS", "")
 if urls:
@@ -64,6 +65,8 @@ def get_stats():
         power = get_power(False)
         if power == "nan":
             power = get_power(True)
+
+    print(power)
 
     return jsonify(
         {
