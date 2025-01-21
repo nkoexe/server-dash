@@ -40,9 +40,6 @@ update();
 setInterval(update, 5000);
 
 
-
-
-
 function call(endpoint) {
   fetch(`/api/${endpoint}`, {
     method: 'POST',

@@ -152,11 +152,6 @@ body {
   transition: all .2s;
 }
 
-.status:not(.ok):not(.error) .indicator {
-  background-color: var(--status-loading);
-  animation: pulse 1s infinite;
-}
-
 .status.ok .indicator {
   background-color: var(--status-ok);
 }
@@ -168,21 +163,6 @@ body {
 .status:hover .indicator {
   scale: 1.1;
 }
-
-@keyframes pulse {
-  0% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.5;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
 
 #sysinfo {
   display: grid;
@@ -202,10 +182,6 @@ body {
   grid-column: span 2;
 }
 
-.info:has(.data span:empty) {
-  animation: pulse 1s infinite;
-}
-
 .info .data {
   font-weight: 600;
   font-size: 35px;
@@ -214,4 +190,27 @@ body {
 
 .info .description {
   opacity: 0.5;
+}
+
+/* loading state */
+.status:not(.ok):not(.error) .indicator {
+  background-color: var(--status-loading);
+}
+
+/* loading animation */
+.status:not(.ok):not(.error),
+.info:has(.data span:empty) {
+  mask-image: linear-gradient(40deg, #0007, #fff, #0007, #fff);
+  mask-size: 400% 100%;
+  animation: loading 1s infinite linear;
+}
+
+@keyframes loading {
+  0% {
+    mask-position: right;
+  }
+
+  100% {
+    mask-position: left;
+  }
 }
