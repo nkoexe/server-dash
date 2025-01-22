@@ -82,7 +82,7 @@ function addToGraph(ctx, y, prev_y) {
 
 
 document.querySelectorAll(".graph").forEach(graph => {
-  graph = graph.getContext("2d");
+  graph = graph.getContext("2d", { willReadFrequently: true });
   graph.prev_y = graph.canvas.height;
   graph.addValue = (value) => {
     value = (graph.canvas.height - 10) - ((value / 100) * (graph.canvas.height - 10));
