@@ -91,7 +91,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 2rem;
 }
 
 .container {
@@ -171,9 +171,11 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   gap: 10px;
+  width: fit-content;
 }
 
 .info {
+  position: relative;
   width: min-content;
   display: flex;
   flex-direction: column;
@@ -186,6 +188,10 @@ body {
   flex-basis: 50%;
 }
 
+.info:not(.wide) {
+  min-width: 250px;
+}
+
 .info .data {
   font-weight: 600;
   font-size: 35px;
@@ -194,6 +200,18 @@ body {
 
 .info .description {
   opacity: 0.5;
+}
+
+.info .graph {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  padding-top: 5px;
+  border-radius: inherit;
+  mask-image: linear-gradient(0deg, #0001, #0004 50%, #0007);
+  z-index: -1;
 }
 
 /* loading state */
