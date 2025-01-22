@@ -1,5 +1,6 @@
 Flask
 python-dotenv
 psutil
+requests
 gunicorn
 gevent
