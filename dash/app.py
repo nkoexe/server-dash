@@ -1,5 +1,6 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, request, jsonify
 from dotenv import load_dotenv
+from requests import get
 from time import time
 import os
 import psutil
@@ -67,6 +68,23 @@ def get_power(avg: bool = False):
     except Exception as e:
         logging.error(e)
         return "nan"
+
+
+@app.route("/api/website", methods=["POST"])
+def get_website():
+    url = request.json["url"]
+    logging.debug(f"Getting website: {url}")
+
+    try:
+        response = get(url)
+        if response.status_code == 200:
+            return jsonify({"status": "ok"})
+        else:
+            logging.error(f"Website down: {url}")
+            return jsonify({"status": "error", "message": "down"})
+    except Exception as e:
+        logging.error(e)
+        return jsonify({"status": "error", "message": str(e)})
 
 
 @app.route("/api/stats")

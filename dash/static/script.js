@@ -25,10 +25,20 @@ function update() {
         power.textContent = data.power;
       }
     });
+}
 
+
+function check_urls() {
   for (let status of document.querySelectorAll('.status')) {
     const url = status.getAttribute('data-url');
-    fetch(url)
+
+    fetch("/api/website", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ url: url })
+    })
       .then(response => {
         if (response.ok) {
           status.classList.remove('error');
@@ -43,7 +53,6 @@ function update() {
       });
   }
 }
-
 
 function call(endpoint) {
   fetch(`/api/${endpoint}`, {
@@ -93,3 +102,6 @@ document.querySelectorAll(".graph").forEach(graph => {
 
 update();
 setInterval(update, 2000);
+
+check_urls();
+setInterval(check_urls, 30000);
