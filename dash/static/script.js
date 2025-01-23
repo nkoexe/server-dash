@@ -39,8 +39,9 @@ function check_urls() {
       },
       body: JSON.stringify({ url: url })
     })
-      .then(response => {
-        if (response.ok) {
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'up') {
           status.classList.remove('error');
           status.classList.add('ok');
         } else {

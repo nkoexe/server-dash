@@ -78,10 +78,10 @@ def get_website():
     try:
         response = get(url)
         if response.status_code == 200:
-            return jsonify({"status": "ok"})
+            return jsonify({"status": "up"})
         else:
             logging.error(f"Website down: {url}")
-            return jsonify({"status": "error", "message": "down"})
+            return jsonify({"status": "down"})
     except Exception as e:
         logging.error(e)
         return jsonify({"status": "error", "message": str(e)})
