@@ -42,25 +42,29 @@
     </div>
 
     <div id="sysinfo" class="container">
-      <div id="cpu" class="info container">
-        <div class="data"><span id="cpu_usage"></span><span class="secondary">%</span></div>
-        <div class="description">cpu<span class="secondary">usage</span></div>
-        <canvas class="graph"></canvas>
+      <div class="row">
+        <div id="cpu" class="info container">
+          <div class="data"><span id="cpu_usage"></span><span class="secondary">%</span></div>
+          <div class="description">cpu<span class="secondary">usage</span></div>
+          <canvas class="graph"></canvas>
+        </div>
+        <div id="mem" class="info container wide">
+          <div class="data"><span id="memory_usage"></span><span class="secondary">/<span id="memory_total"></span>GB</span></div>
+          <div class="description">memory<span class="secondary">usage</span></div>
+          <canvas class="graph"></canvas>
+        </div>
       </div>
-      <div id="mem" class="info container wide">
-        <div class="data"><span id="memory_usage"></span><span class="secondary">/<span id="memory_total"></span>GB</span></div>
-        <div class="description">memory<span class="secondary">usage</span></div>
-        <canvas class="graph"></canvas>
-      </div>
-      <div id="disk" class="info container wide">
-        <div class="data"><span id="disk_usage"></span><span class="secondary">/<span id="disk_total"></span>GB</span></div>
-        <div class="description">disk<span class="secondary">usage</span></div>
-        <canvas class="graph"></canvas>
-      </div>
-      <div id="pwr" class="info container">
-        <div class="data"><span id="power_draw"></span><span class="secondary">W</span></div>
-        <div class="description">power<span class="secondary">draw</span></div>
-        <canvas class="graph"></canvas>
+      <div class="row">
+        <div id="disk" class="info container wide">
+          <div class="data"><span id="disk_usage"></span><span class="secondary">/<span id="disk_total"></span>GB</span></div>
+          <div class="description">disk<span class="secondary">usage</span></div>
+          <canvas class="graph"></canvas>
+        </div>
+        <div id="pwr" class="info container">
+          <div class="data"><span id="power_draw"></span><span class="secondary">W</span></div>
+          <div class="description">power<span class="secondary">draw</span></div>
+          <canvas class="graph"></canvas>
+        </div>
       </div>
     </div>
 

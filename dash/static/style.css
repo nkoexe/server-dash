@@ -167,16 +167,23 @@ body {
 }
 
 #sysinfo {
+  flex: 1 1 550px;
+  display: flex;
+  gap: 10px;
+}
+
+#sysinfo .row {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
   gap: 10px;
-  width: fit-content;
+  width: 100%;
 }
 
 .info {
   position: relative;
-  width: min-content;
+  width: 100%;
+  min-width: 250px;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
   border: var(--border);
@@ -185,11 +192,9 @@ body {
 }
 
 .info.wide {
-  flex-basis: 50%;
-}
-
-.info:not(.wide) {
-  min-width: 250px;
+  /* flex: 1; */
+  min-width: 300px;
+  max-width: 600px;
 }
 
 .info .data {
