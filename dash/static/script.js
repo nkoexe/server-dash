@@ -4,6 +4,18 @@ const mem_total = document.querySelector("#memory_total");
 const disk = document.querySelector("#disk_usage");
 const disk_total = document.querySelector("#disk_total");
 const power = document.querySelector("#power_draw");
+const menu = document.querySelector("#actions_menu");
+
+
+document.querySelector("#actions_button").onclick = () => {
+  menu.classList.add("visible");
+}
+
+
+document.querySelector("#exit_actions").onclick = () => {
+  menu.classList.remove("visible");
+}
+
 
 
 function update() {

@@ -10,36 +10,35 @@
 <body>
   <div id="header">
     <h1 id="title">hello<span class="secondary">world.</span></h1>
-    <div class="buttons">
-      <button onclick="call('restart-containers')">restart containers</button>
-      <span class="or">or</span>
-      <button onclick="call('restart-networking')">restart networking</button>
-      <span class="or">or</span>
-      <button onclick="call('reboot')">reboot</button>
-      <div class="others">
-        <span class="or">or</span>
-        <button onclick="call('shutdown')">shutdown</button>
-      </div>
+    <button id="actions_button"><span class="secondary">quick</span>actions.</button>
+  </div>
+
+  <div id="actions_menu">
+    <button id="exit_actions"></button>
+    <div id="actions">
+      <button onclick="call('restart-containers')"><span class="secondary">restart </span>containers</button>
+      <button onclick="call('restart-networking')"><span class="secondary">restart </span>networking</button>
+      <button onclick="call('reboot')"><span class="secondary">system </span>reboot</button>
+      <button onclick="call('shutdown')"><span class="secondary">system </span>shutdown</button>
     </div>
   </div>
 
+
   <div id="main_container">
+    {% if urls %}
     <div id="status_container" class="container">
       {% for url in urls %}
       <a class="status" data-url="{{url}}" href="{{url}}" target="_blank">
         <div class="indicator loading"></div>
         {% set domain = url.split("//")[1] %}
         {% set parts = domain.split(".") %}
-        {% if parts|length > 2 %}
         {% set subdomain = parts[0] %}
-        {% set domain = "." + ".".join(parts[1:]) %}
-        <div>{{subdomain}}<span class="secondary">{{domain}}</span></div>
-        {% else %}
-        <div>{{domain}}</div>
-        {% endif %}
+        {% set rest = "." + ".".join(parts[1:]) %}
+        <div>{{subdomain}}<span class="secondary">{{rest}}</span></div>
       </a>
       {% endfor %}
     </div>
+    {% endif %}
 
     <div id="sysinfo" class="container">
       <div class="row">

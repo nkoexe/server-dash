@@ -21,9 +21,9 @@ app = Flask(__name__)
 
 load_dotenv()
 
-power = "nan"
-last_power_check = 0
-power_check_interval = 5 * 60
+# power = "nan"
+# last_power_check = 0
+# power_check_interval = 5 * 60
 
 urls = os.getenv("DASH_URLS", "")
 if urls:
@@ -33,41 +33,44 @@ logging.info(f"URLs: {urls}")
 
 
 def get_power(avg: bool = False):
-    try:
-        with open("/var/log/power.csv", "r") as file:
-            if not avg:
-                pwrstr = file.readlines()[-1].strip().split(",")[-1]
-                try:
-                    return float(pwrstr)
-                except ValueError:
-                    pass
+    # try:
+    #     with open("/var/log/power.csv", "r") as file:
+    #         if not avg:
+    #             pwrstr = file.readlines()[-1].strip().split(",")[-1]
+    #             try:
+    #                 return float(pwrstr)
+    #             except ValueError:
+    #                 pass
 
-                return "nan"
+    #             return "nan"
 
-            pwrlist = [line.strip().split(",")[-1] for line in file.readlines()]
+    #         pwrlist = [line.strip().split(",")[-1] for line in file.readlines()]
 
-            take = 10
-            i = 0
-            pwrsum = 0
-            while take > 0:
-                i += 1
-                try:
-                    pwrsum += float(pwrlist[-i])
-                    take -= 1
-                except ValueError:
-                    pass
-                finally:
-                    if i == len(pwrlist):
-                        break
+    #         take = 10
+    #         i = 0
+    #         pwrsum = 0
+    #         while take > 0:
+    #             i += 1
+    #             try:
+    #                 pwrsum += float(pwrlist[-i])
+    #                 take -= 1
+    #             except ValueError:
+    #                 pass
+    #             finally:
+    #                 if i == len(pwrlist):
+    #                     break
 
-            if pwrsum == 0:
-                return "nan"
+    #         if pwrsum == 0:
+    #             return "nan"
 
-            return pwrsum / (10 - take)
+    #         return pwrsum / (10 - take)
 
-    except Exception as e:
-        logging.error(e)
-        return "nan"
+    # except Exception as e:
+    #     logging.error(e)
+    #     return "nan"
+
+    # Average consumption of my laptop, hardcode until better configuration
+    return 9
 
 
 @app.route("/api/website", methods=["POST"])
@@ -89,12 +92,10 @@ def get_website():
 
 @app.route("/api/stats")
 def get_stats():
-    global last_power_check, power
-    if time() - last_power_check > power_check_interval:
-        last_power_check = time()
-        power = get_power(False)
-        if power == "nan":
-            power = get_power(True)
+    # global last_power_check, power
+    # if time() - last_power_check > power_check_interval:
+    #     last_power_check = time()
+    power = get_power(False)
 
     return jsonify(
         {
