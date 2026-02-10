@@ -11,8 +11,8 @@ import logging
 commands = {
     "restart-containers": ["docker", "restart", "$(docker ps -q)"],
     "restart-networking": ["systemctl", "restart", "networking"],
-    "reboot": ["shutdown", "-r", "now"],
-    "shutdown": ["shutdown", "-h", "now"],
+    "reboot": ["systemctl", "reboot"],
+    "shutdown": ["systemctl", "poweroff"],
 }
 
 logging.basicConfig(level=logging.DEBUG)
