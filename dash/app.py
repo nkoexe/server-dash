@@ -108,11 +108,15 @@ def get_stats():
 
 
 @app.route("/api/<cmd>", methods=["POST"])
-def cmd(cmd):
+def run(cmd):
     try:
-        logging.info(f"Running command: {commands[cmd]}")
+        if cmd not in commands:
+            return jsonify({"status": "error", "message": "Command not found"}), 404
+
+        full_command = " ".join(commands[cmd])
+        logging.info(f"Running command: {full_command}")
         result = subprocess.run(
-            commands[cmd], capture_output=True, text=True, shell=True
+            full_command, capture_output=True, text=True, shell=True
         )
 
         if result.returncode == 0:
@@ -121,6 +125,7 @@ def cmd(cmd):
         else:
             logging.error(result.stderr)
             return jsonify({"status": "error", "message": result.stderr}), 500
+
     except Exception as e:
         logging.error(e)
         return jsonify({"status": "error", "message": str(e)}), 500
