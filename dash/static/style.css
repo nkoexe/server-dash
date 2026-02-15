@@ -133,10 +133,73 @@ body {
   gap: 5px;
 }
 
-#status_container {
+#status_container,
+#docker_container {
   padding: 40px 50px;
   border: var(--border);
   border-radius: 40px;
+}
+
+#docker_container {
+  gap: 20px;
+}
+
+.docker_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 400;
+  padding: 0 10px;
+}
+
+.docker_summary {
+  font-size: 16px;
+}
+
+#docker_list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.docker_item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 15px 30px;
+  background-color: var(--background-light);
+  border: var(--border);
+  border-radius: 15px;
+  transition: all 1s;
+}
+
+.docker_item.error {
+  box-shadow: inset 30px 0 30px -25px var(--status-error);
+}
+
+.docker_item .indicator {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: all .2s;
+}
+
+.docker_item.ok .indicator {
+  background-color: var(--status-ok);
+}
+
+.docker_item.error .indicator {
+  background-color: var(--status-error);
+}
+
+.docker_name {
+  flex: 1;
+}
+
+.docker_status {
+  font-size: 14px;
 }
 
 .status {

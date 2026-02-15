@@ -5,6 +5,9 @@ const disk = document.querySelector("#disk_usage");
 const disk_total = document.querySelector("#disk_total");
 const power = document.querySelector("#power_draw");
 const menu = document.querySelector("#actions_menu");
+const docker_running = document.querySelector("#docker_running");
+const docker_total = document.querySelector("#docker_total");
+const docker_list = document.querySelector("#docker_list");
 
 
 document.querySelector("#actions_button").onclick = () => {
@@ -18,8 +21,8 @@ document.querySelector("#exit_actions").onclick = () => {
 
 
 
-function update() {
-  fetch('/api/stats')
+function update_system() {
+  fetch('/api/system')
     .then(response => response.json())
     .then(data => {
       cpu.textContent = data.cpu;
@@ -40,31 +43,67 @@ function update() {
 }
 
 
-function check_urls() {
-  for (let status of document.querySelectorAll('.status')) {
-    const url = status.getAttribute('data-url');
-
-    fetch("/api/website", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ url: url })
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'up') {
-          status.classList.remove('error');
-          status.classList.add('ok');
-        } else {
-          status.classList.remove('ok');
-          status.classList.add('error');
+function update_websites() {
+  fetch("/api/websites")
+    .then(response => response.json())
+    .then(data => {
+      for (let url in data) {
+        const status = document.querySelector(`.status[data-url="${url}"]`);
+        if (status) {
+          if (data[url] === 'up') {
+            status.classList.remove('error');
+            status.classList.add('ok');
+          } else {
+            status.classList.remove('ok');
+            status.classList.add('error');
+          }
         }
-      }).catch(error => {
-        status.classList.remove('ok');
-        status.classList.add('error');
+      }
+    });
+}
+
+
+function update_docker() {
+  fetch('/api/docker')
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) {
+        docker_running.textContent = '!';
+        docker_total.textContent = '!';
+        docker_list.innerHTML = '<div class="docker_item error"><div class="indicator"></div><div class="docker_name">Error: ' + data.error + '</div></div>';
+        return;
+      }
+
+      docker_running.textContent = data.running;
+      docker_total.textContent = data.total;
+
+      docker_list.innerHTML = '';
+      data.containers.forEach(container => {
+        const item = document.createElement('div');
+        item.className = 'docker_item ' + (container.state === 'running' ? 'ok' : 'error');
+
+        const indicator = document.createElement('div');
+        indicator.className = 'indicator';
+
+        const name = document.createElement('div');
+        name.className = 'docker_name';
+        name.textContent = container.name;
+
+        const status = document.createElement('div');
+        status.className = 'docker_status secondary';
+        status.textContent = container.status;
+
+        item.appendChild(indicator);
+        item.appendChild(name);
+        item.appendChild(status);
+        docker_list.appendChild(item);
       });
-  }
+    })
+    .catch(error => {
+      docker_running.textContent = '!';
+      docker_total.textContent = '!';
+      docker_list.innerHTML = '<div class="docker_item error"><div class="indicator"></div><div class="docker_name">Failed to fetch</div></div>';
+    });
 }
 
 function call(endpoint) {
@@ -113,8 +152,13 @@ document.querySelectorAll(".graph").forEach(graph => {
   graphs.push(graph);
 });
 
-update();
-setInterval(update, 2000);
 
-check_urls();
-setInterval(check_urls, 30000);
+
+update_system();
+setInterval(update_system, 2000);
+
+update_websites();
+setInterval(update_websites, 30000);
+
+update_docker();
+setInterval(update_docker, 10000);

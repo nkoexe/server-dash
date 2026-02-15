@@ -40,6 +40,16 @@
     </div>
     {% endif %}
 
+    <div id="docker_container" class="container">
+      <div class="docker_header">
+        <span>containers<span class="secondary">status</span></span>
+        <div class="docker_summary">
+          <span id="docker_running">-</span><span class="secondary">/</span><span id="docker_total">-</span>
+        </div>
+      </div>
+      <div id="docker_list"></div>
+    </div>
+
     <div id="sysinfo" class="container">
       <div class="row">
         <div id="cpu" class="info container">
