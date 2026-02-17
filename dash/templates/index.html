@@ -2,6 +2,8 @@
 <html>
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
   <link rel="stylesheet" href="static/style.css">
   <link rel="icon" href="static/favicon.ico" type="image/x-icon">
@@ -30,11 +32,25 @@
       {% for url in urls %}
       <a class="status" data-url="{{url}}" href="{{url}}" target="_blank">
         <div class="indicator loading"></div>
-        {% set domain = url.split("//")[1] %}
-        {% set parts = domain.split(".") %}
-        {% set subdomain = parts[0] %}
-        {% set rest = "." + ".".join(parts[1:]) %}
-        <div>{{subdomain}}<span class="secondary">{{rest}}</span></div>
+        <div class="status-content">
+          {% set domain = url.split("//")[1] %}
+          {% set parts = domain.split(".") %}
+          {% set subdomain = parts[0] %}
+          {% set rest = "." + ".".join(parts[1:]) %}
+          <div class="status-name">{{subdomain}}<span class="secondary">{{rest}}</span></div>
+          <div class="uptime-dots loading" data-url="{{url}}">
+            {% for i in range(30) %}
+            <div class="uptime-dot"></div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="uptime-tooltip">
+          <div class="uptime-tooltip-content">
+            <div class="uptime-stat"><span class="label">24h:</span> <span class="value">-</span></div>
+            <div class="uptime-stat"><span class="label">7d:</span> <span class="value">-</span></div>
+            <div class="uptime-stat"><span class="label">30d:</span> <span class="value">-</span></div>
+          </div>
+        </div>
       </a>
       {% endfor %}
     </div>
@@ -77,7 +93,7 @@
       </div>
     </div>
 
-    <script src="static/script.js" async></script>
+    <script src="static/script.js" defer></script>
 </body>
 
 </html>
